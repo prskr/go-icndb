@@ -1,10 +1,11 @@
-FROM golang:1.11 as build
+FROM golang:1.11-alpine as build
 
 WORKDIR /go/src/github.com/baez90/go-icndb
 
 ADD ./ ./
 
-RUN go get -u github.com/gobuffalo/packr/packr && \
+RUN apk add --no-cache git && \
+    go get -u github.com/gobuffalo/packr/packr && \
     packr && \
     CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -tags netgo -ldflags '-w -extldflags "-static"' -o icndb .
 
