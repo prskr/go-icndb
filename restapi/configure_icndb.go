@@ -56,6 +56,10 @@ func configureAPI(api *operations.ICNDBAPI) http.Handler {
 		return handlers.NewRandomJokeHandler(jokes).Handle(params)
 	})
 
+	api.GetHostnameHandler = operations.GetHostnameHandlerFunc(func(params operations.GetHostnameParams) middleware.Responder {
+		return handlers.NewGetHostnameHandler().Handle(params)
+	})
+
 	api.ServerShutdown = func() {}
 
 	return setupGlobalMiddleware(api.Serve(setupMiddlewares))

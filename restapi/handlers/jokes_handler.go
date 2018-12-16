@@ -60,8 +60,9 @@ func (h *getRandomJokeHandler)  Handle(params operations.GetRandomJokeParams) mi
 // Handle the GetJokesCount operation
 // /api/jokes/count
 func (h *getJokesCountHandler) Handle(params operations.GetJokesCountParams) middleware.Responder {
+	factsLength := h.facts.Length()
 	return operations.NewGetJokesCountOK().WithPayload(&respModels.CountResponse{
-		Count: h.facts.Length(),
+		Count: &factsLength,
 	})
 }
 

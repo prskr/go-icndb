@@ -128,11 +128,31 @@ func init() {
           }
         }
       }
+    },
+    "/system/hostname": {
+      "get": {
+        "summary": "Get the hostname of the system",
+        "operationId": "getHostname",
+        "responses": {
+          "200": {
+            "description": "Got hostname",
+            "schema": {
+              "$ref": "#/definitions/HostnameResponse"
+            }
+          },
+          "500": {
+            "description": "Failed to get hostname"
+          }
+        }
+      }
     }
   },
   "definitions": {
     "CountResponse": {
       "type": "object",
+      "required": [
+        "count"
+      ],
       "properties": {
         "count": {
           "type": "integer"
@@ -156,6 +176,17 @@ func init() {
           "type": "integer"
         },
         "joke": {
+          "type": "string"
+        }
+      }
+    },
+    "HostnameResponse": {
+      "type": "object",
+      "required": [
+        "hostname"
+      ],
+      "properties": {
+        "hostname": {
           "type": "string"
         }
       }
@@ -273,11 +304,31 @@ func init() {
           }
         }
       }
+    },
+    "/system/hostname": {
+      "get": {
+        "summary": "Get the hostname of the system",
+        "operationId": "getHostname",
+        "responses": {
+          "200": {
+            "description": "Got hostname",
+            "schema": {
+              "$ref": "#/definitions/HostnameResponse"
+            }
+          },
+          "500": {
+            "description": "Failed to get hostname"
+          }
+        }
+      }
     }
   },
   "definitions": {
     "CountResponse": {
       "type": "object",
+      "required": [
+        "count"
+      ],
       "properties": {
         "count": {
           "type": "integer"
@@ -301,6 +352,17 @@ func init() {
           "type": "integer"
         },
         "joke": {
+          "type": "string"
+        }
+      }
+    },
+    "HostnameResponse": {
+      "type": "object",
+      "required": [
+        "hostname"
+      ],
+      "properties": {
+        "hostname": {
           "type": "string"
         }
       }

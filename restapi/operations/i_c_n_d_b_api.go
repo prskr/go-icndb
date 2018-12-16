@@ -43,6 +43,9 @@ func NewICNDBAPI(spec *loads.Document) *ICNDBAPI {
 		GetHealthHandler: GetHealthHandlerFunc(func(params GetHealthParams) middleware.Responder {
 			return middleware.NotImplemented("operation GetHealth has not yet been implemented")
 		}),
+		GetHostnameHandler: GetHostnameHandlerFunc(func(params GetHostnameParams) middleware.Responder {
+			return middleware.NotImplemented("operation GetHostname has not yet been implemented")
+		}),
 		GetJokesCountHandler: GetJokesCountHandlerFunc(func(params GetJokesCountParams) middleware.Responder {
 			return middleware.NotImplemented("operation GetJokesCount has not yet been implemented")
 		}),
@@ -84,6 +87,8 @@ type ICNDBAPI struct {
 	GetJokeByIDHandler GetJokeByIDHandler
 	// GetHealthHandler sets the operation handler for the get health operation
 	GetHealthHandler GetHealthHandler
+	// GetHostnameHandler sets the operation handler for the get hostname operation
+	GetHostnameHandler GetHostnameHandler
 	// GetJokesCountHandler sets the operation handler for the get jokes count operation
 	GetJokesCountHandler GetJokesCountHandler
 	// GetRandomJokeHandler sets the operation handler for the get random joke operation
@@ -157,6 +162,10 @@ func (o *ICNDBAPI) Validate() error {
 
 	if o.GetHealthHandler == nil {
 		unregistered = append(unregistered, "GetHealthHandler")
+	}
+
+	if o.GetHostnameHandler == nil {
+		unregistered = append(unregistered, "GetHostnameHandler")
 	}
 
 	if o.GetJokesCountHandler == nil {
@@ -274,6 +283,11 @@ func (o *ICNDBAPI) initHandlerCache() {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
 	o.handlers["GET"]["/health"] = NewGetHealth(o.context, o.GetHealthHandler)
+
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/system/hostname"] = NewGetHostname(o.context, o.GetHostnameHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)

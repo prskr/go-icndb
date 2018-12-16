@@ -3,17 +3,16 @@ package models
 import (
 	"encoding/json"
 	"fmt"
+	respModels "github.com/baez90/go-icndb/models"
 	"github.com/gobuffalo/packr"
 	"html"
 	"math/rand"
-	respModels "github.com/baez90/go-icndb/models"
 )
 
 type Fact struct {
-
 	// joke
 	// Required: true
-	Joke       string   `json:"joke"`
+	Joke string `json:"joke"`
 
 	// categories
 	// Required: true
@@ -21,9 +20,10 @@ type Fact struct {
 }
 
 func (f *Fact) ToFactResponse(id int64, firstName *string, lastName *string) *respModels.FactResponse {
+	formattedJoke := fmt.Sprintf(f.Joke, html.EscapeString(*firstName), html.EscapeString(*lastName))
 	return &respModels.FactResponse{
-		ID: id,
-		Joke: fmt.Sprintf(f.Joke, html.EscapeString(*firstName), html.EscapeString(*lastName)),
+		ID:         id,
+		Joke:       &formattedJoke,
 		Categories: f.Categories,
 	}
 }

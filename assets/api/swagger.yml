@@ -67,6 +67,17 @@ paths:
             $ref: '#/definitions/FactResponse'
         404:
           description: Not found
+  /system/hostname:
+    get:
+      summary: Get the hostname of the system
+      operationId: getHostname
+      responses:
+        200:
+          description: Got hostname
+          schema:
+            $ref: '#/definitions/HostnameResponse'
+        500:
+          description: Failed to get hostname
   /health:
     get:
       summary: Check the health state of the service
@@ -82,6 +93,8 @@ definitions:
     properties:
       count:
         type: integer
+    required:
+      - count
   FactResponse:
     type: object
     properties:
@@ -96,3 +109,10 @@ definitions:
     required:
       - joke
       - categories
+  HostnameResponse:
+    type: object
+    properties:
+      hostname:
+        type: string
+    required:
+      - hostname

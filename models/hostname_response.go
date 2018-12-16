@@ -13,20 +13,20 @@ import (
 	"github.com/go-openapi/validate"
 )
 
-// CountResponse count response
-// swagger:model CountResponse
-type CountResponse struct {
+// HostnameResponse hostname response
+// swagger:model HostnameResponse
+type HostnameResponse struct {
 
-	// count
+	// hostname
 	// Required: true
-	Count *int64 `json:"count"`
+	Hostname *string `json:"hostname"`
 }
 
-// Validate validates this count response
-func (m *CountResponse) Validate(formats strfmt.Registry) error {
+// Validate validates this hostname response
+func (m *HostnameResponse) Validate(formats strfmt.Registry) error {
 	var res []error
 
-	if err := m.validateCount(formats); err != nil {
+	if err := m.validateHostname(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -36,9 +36,9 @@ func (m *CountResponse) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
-func (m *CountResponse) validateCount(formats strfmt.Registry) error {
+func (m *HostnameResponse) validateHostname(formats strfmt.Registry) error {
 
-	if err := validate.Required("count", "body", m.Count); err != nil {
+	if err := validate.Required("hostname", "body", m.Hostname); err != nil {
 		return err
 	}
 
@@ -46,7 +46,7 @@ func (m *CountResponse) validateCount(formats strfmt.Registry) error {
 }
 
 // MarshalBinary interface implementation
-func (m *CountResponse) MarshalBinary() ([]byte, error) {
+func (m *HostnameResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
@@ -54,8 +54,8 @@ func (m *CountResponse) MarshalBinary() ([]byte, error) {
 }
 
 // UnmarshalBinary interface implementation
-func (m *CountResponse) UnmarshalBinary(b []byte) error {
-	var res CountResponse
+func (m *HostnameResponse) UnmarshalBinary(b []byte) error {
+	var res HostnameResponse
 	if err := swag.ReadJSON(b, &res); err != nil {
 		return err
 	}
