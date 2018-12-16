@@ -38,3 +38,8 @@ fabric.properties
 
 /packrd/
 /*-packr.go
+
+go-icndb
+icndb
+
+vendor/

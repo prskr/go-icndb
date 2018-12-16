@@ -1,0 +1,98 @@
+swagger: "2.0"
+info:
+  description: ICNDB sample API for ITB
+  title: ICNDB
+  version: 0.0.1
+consumes:
+  - application/json
+produces:
+  - application/json
+schemes:
+  - http
+basePath: /api
+paths:
+  /jokes/count:
+    get:
+      summary: Get the count of the available jokes
+      operationId: getJokesCount
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/CountResponse'
+  /jokes/random:
+    get:
+      summary: Get a random joke
+      operationId: getRandomJoke
+      parameters:
+        - name: firstName
+          in: query
+          description: Name to replace Chuck with in Joke
+          type: string
+          required: false
+        - name: lastName
+          in: query
+          description: Name to replace Norris with in Joke
+          type: string
+          required: false
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/FactResponse'
+  /jokes/{id}:
+    get:
+      summary: Get the joke with the specified id
+      operationId: Get joke by id
+      parameters:
+        - name: id
+          in: path
+          description: Joke ID
+          type: integer
+          required: true
+        - name: firstName
+          in: query
+          description: Name to replace Chuck with in Joke
+          type: string
+          required: false
+        - name: lastName
+          in: query
+          description: Name to replace Norris with in Joke
+          type: string
+          required: false
+      responses:
+        200:
+          description: Ok
+          schema:
+            $ref: '#/definitions/FactResponse'
+        404:
+          description: Not found
+  /health:
+    get:
+      summary: Check the health state of the service
+      operationId: getHealth
+      responses:
+        200:
+          description: Service is healthy
+        500:
+          description: Service is not healty
+definitions:
+  CountResponse:
+    type: object
+    properties:
+      count:
+        type: integer
+  FactResponse:
+    type: object
+    properties:
+      id:
+        type: integer
+      joke:
+        type: string
+      categories:
+        type: array
+        items:
+          type: string
+    required:
+      - joke
+      - categories
