@@ -186,6 +186,22 @@
 
 [[projects]]
   branch = "master"
+  digest = "1:67af90f6f6551eed6e14b16833c68ff9e6a3d1e11ea296df70693b24744c24d1"
+  name = "github.com/joonix/log"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "d2d3f2f4a80658c67a0bc44021dcac30f3017c06"
+
+[[projects]]
+  digest = "1:0a69a1c0db3591fcefb47f115b224592c8dfa4368b7ba9fae509d5e16cdc95c8"
+  name = "github.com/konsorten/go-windows-terminal-sequences"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "5c8c8bd35d3832f5d134ae1e1e375b69a4d25242"
+  version = "v1.0.1"
+
+[[projects]]
+  branch = "master"
   digest = "1:84a5a2b67486d5d67060ac393aa255d05d24ed5ee41daecd5635ec22657b6492"
   name = "github.com/mailru/easyjson"
   packages = [
@@ -221,6 +237,22 @@
   version = "v0.8.0"
 
 [[projects]]
+  digest = "1:69b1cc331fca23d702bd72f860c6a647afd0aa9fcbc1d0659b1365e26546dd70"
+  name = "github.com/sirupsen/logrus"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "bcd833dfe83d3cebad139e4a29ed79cb2318bf95"
+  version = "v1.2.0"
+
+[[projects]]
+  branch = "master"
+  digest = "1:38f553aff0273ad6f367cb0a0f8b6eecbaef8dc6cb8b50e57b6a81c1d5b1e332"
+  name = "golang.org/x/crypto"
+  packages = ["ssh/terminal"]
+  pruneopts = "UT"
+  revision = "505ab145d0a99da450461ae2c1a9f6cd10d1f447"
+
+[[projects]]
   branch = "master"
   digest = "1:bbd232f46e33dfb01068e0f4193a3da2d662a350873804bc964f697de5f39ac7"
   name = "golang.org/x/net"
@@ -230,6 +262,17 @@
   ]
   pruneopts = "UT"
   revision = "891ebc4b82d6e74f468c533b06f983c7be918a96"
+
+[[projects]]
+  branch = "master"
+  digest = "1:ba8cbf57cfd92d5f8592b4aca1a35d92c162363d32aeabd5b12555f8896635e7"
+  name = "golang.org/x/sys"
+  packages = [
+    "unix",
+    "windows",
+  ]
+  pruneopts = "UT"
+  revision = "4d1cda033e0619309c606fc686de3adcf599539e"
 
 [[projects]]
   digest = "1:0c56024909189aee3364b7f21a95a27459f718aa7c199a5c111c36cfffd9eaef"
@@ -279,6 +322,8 @@
     "github.com/go-openapi/validate",
     "github.com/gobuffalo/packr",
     "github.com/jessevdk/go-flags",
+    "github.com/joonix/log",
+    "github.com/sirupsen/logrus",
     "golang.org/x/net/netutil",
   ]
   solver-name = "gps-cdcl"

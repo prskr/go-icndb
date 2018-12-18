@@ -37,7 +37,7 @@ crashlytics-build.properties
 fabric.properties
 
 /packrd/
-/*-packr.go
+**/*-packr.go
 
 go-icndb
 icndb

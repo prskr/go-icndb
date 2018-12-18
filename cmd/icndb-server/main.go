@@ -3,7 +3,7 @@
 package main
 
 import (
-	"log"
+	log "github.com/sirupsen/logrus"
 	"os"
 
 	"github.com/baez90/go-icndb/restapi"

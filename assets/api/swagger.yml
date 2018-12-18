@@ -78,6 +78,15 @@ paths:
             $ref: '#/definitions/HostnameResponse'
         500:
           description: Failed to get hostname
+  /system/ipaddresses:
+    get:
+      summary: Get the IP addresses of the host
+      operationId: getIPAddresses
+      responses:
+        200:
+          description: Got IP addresses
+          schema:
+            $ref: '#/definitions/IPAddressesResponse'
   /health:
     get:
       summary: Check the health state of the service
@@ -116,3 +125,10 @@ definitions:
         type: string
     required:
       - hostname
+  IPAddressesResponse:
+    type: object
+    properties:
+      addresses:
+        type: array
+        items:
+          type: string

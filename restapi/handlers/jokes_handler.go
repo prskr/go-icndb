@@ -9,15 +9,15 @@ import (
 
 const (
 	defaultFirstName = "Chuck"
-	defaultLastName = "Norris"
+	defaultLastName  = "Norris"
 )
 
 type getJokesByIDHandler struct {
-	facts  *models.Facts
+	facts *models.Facts
 }
 
 type getRandomJokeHandler struct {
-	facts  *models.Facts
+	facts *models.Facts
 }
 
 type getJokesCountHandler struct {
@@ -43,19 +43,18 @@ func NewGetJokesCountHandler(facts *models.Facts) *getJokesCountHandler {
 }
 
 // Handle the GetJokeById operation
+// /api/jokes/{id}
 func (h *getJokesByIDHandler) Handle(params operations.GetJokeByIDParams) middleware.Responder {
 	fact := h.facts.Facts[params.ID]
 	return operations.NewGetJokeByIDOK().WithPayload(fact.ToFactResponse(params.ID, getOrElse(params.FirstName, defaultFirstName), getOrElse(params.LastName, defaultLastName)))
 }
 
-
 // Handle the GetRandomJoke operation
 // /api/jokes/random
-func (h *getRandomJokeHandler)  Handle(params operations.GetRandomJokeParams) middleware.Responder {
+func (h *getRandomJokeHandler) Handle(params operations.GetRandomJokeParams) middleware.Responder {
 	id, fact := h.facts.GetRandomFact()
 	return operations.NewGetRandomJokeOK().WithPayload(fact.ToFactResponse(id, getOrElse(params.FirstName, defaultFirstName), getOrElse(params.LastName, defaultLastName)))
 }
-
 
 // Handle the GetJokesCount operation
 // /api/jokes/count

@@ -3,8 +3,10 @@ package restapi
 import (
 	"crypto/tls"
 	"github.com/baez90/go-icndb/restapi/handlers"
+	"github.com/go-openapi/swag"
 	"github.com/gobuffalo/packr"
-	"log"
+	joonix "github.com/joonix/log"
+	log "github.com/sirupsen/logrus"
 	"net/http"
 
 	"github.com/go-openapi/errors"
@@ -18,26 +20,37 @@ import (
 
 //go:generate swagger generate server --target ./ --name ICNDB --spec ./assets/api/swagger.yml
 
+var loggingFlags = struct {
+	LogFormat string `long:"log-format" description:"Log format to use, defaults to text, valid values: [text, json, fluentd]"`
+	LogLevel  string `long:"log-level" description:"Log level the application runs on"`
+}{}
+
 func configureFlags(api *operations.ICNDBAPI) {
 	// api.CommandLineOptionsGroups = []swag.CommandLineOptionsGroup{ ... }
+
+	api.CommandLineOptionsGroups = []swag.CommandLineOptionsGroup{
+		{
+			ShortDescription: "Logging loggingFlags",
+			LongDescription:  "",
+			Options:          &loggingFlags,
+		},
+	}
+
 }
 
 func configureAPI(api *operations.ICNDBAPI) http.Handler {
 	// configure the api here
 	api.ServeError = errors.ServeError
 
-	box :=packr.NewBox("../assets/app")
+	box := packr.NewBox("../assets/app")
 	jokes, err := models.LoadFacts(&box, "jokes.json")
+	configureLogging()
 
 	if err != nil {
 		log.Println(err)
 	}
 
-	// Set your custom logger if needed. Default one is log.Printf
-	// Expected interface func(string, ...interface{})
-	//
-	// Example:
-	// api.Logger = log.Printf
+	api.Logger = log.Printf
 
 	api.JSONConsumer = runtime.JSONConsumer()
 
@@ -58,6 +71,10 @@ func configureAPI(api *operations.ICNDBAPI) http.Handler {
 
 	api.GetHostnameHandler = operations.GetHostnameHandlerFunc(func(params operations.GetHostnameParams) middleware.Responder {
 		return handlers.NewGetHostnameHandler().Handle(params)
+	})
+
+	api.GetIPAddressesHandler = operations.GetIPAddressesHandlerFunc(func(params operations.GetIPAddressesParams) middleware.Responder {
+		return handlers.NewGetIPAddressesHandler().Handle(params)
 	})
 
 	api.ServerShutdown = func() {}
@@ -87,4 +104,29 @@ func setupMiddlewares(handler http.Handler) http.Handler {
 // So this is a good place to plug in a panic handling middleware, logging and metrics
 func setupGlobalMiddleware(handler http.Handler) http.Handler {
 	return handler
+}
+
+func configureLogging() {
+	parsedLogLevel, err := log.ParseLevel(loggingFlags.LogLevel)
+
+	if err == nil {
+		log.SetLevel(parsedLogLevel)
+	} else {
+		log.SetLevel(log.WarnLevel)
+	}
+
+	switch loggingFlags.LogFormat {
+	case "json":
+		log.SetFormatter(&log.JSONFormatter{})
+		break
+	case "fluentd":
+		log.SetFormatter(&joonix.FluentdFormatter{})
+		break
+	default:
+		log.SetFormatter(&log.TextFormatter{
+			ForceColors:   true,
+			DisableColors: false,
+		})
+		break
+	}
 }

@@ -145,6 +145,20 @@ func init() {
           }
         }
       }
+    },
+    "/system/ipaddresses": {
+      "get": {
+        "summary": "Get the IP addresses of the host",
+        "operationId": "getIPAddresses",
+        "responses": {
+          "200": {
+            "description": "Got IP addresses",
+            "schema": {
+              "$ref": "#/definitions/IPAddressesResponse"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -188,6 +202,17 @@ func init() {
       "properties": {
         "hostname": {
           "type": "string"
+        }
+      }
+    },
+    "IPAddressesResponse": {
+      "type": "object",
+      "properties": {
+        "addresses": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       }
     }
@@ -321,6 +346,20 @@ func init() {
           }
         }
       }
+    },
+    "/system/ipaddresses": {
+      "get": {
+        "summary": "Get the IP addresses of the host",
+        "operationId": "getIPAddresses",
+        "responses": {
+          "200": {
+            "description": "Got IP addresses",
+            "schema": {
+              "$ref": "#/definitions/IPAddressesResponse"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -364,6 +403,17 @@ func init() {
       "properties": {
         "hostname": {
           "type": "string"
+        }
+      }
+    },
+    "IPAddressesResponse": {
+      "type": "object",
+      "properties": {
+        "addresses": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       }
     }
