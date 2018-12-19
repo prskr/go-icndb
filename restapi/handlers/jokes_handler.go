@@ -1,10 +1,12 @@
 package handlers
 
 import (
+	"fmt"
 	"github.com/baez90/go-icndb/internal/pkg/models"
 	respModels "github.com/baez90/go-icndb/models"
 	"github.com/baez90/go-icndb/restapi/operations"
 	"github.com/go-openapi/runtime/middleware"
+	"os"
 )
 
 const (
@@ -46,6 +48,11 @@ func NewGetJokesCountHandler(facts *models.Facts) *getJokesCountHandler {
 // /api/jokes/{id}
 func (h *getJokesByIDHandler) Handle(params operations.GetJokeByIDParams) middleware.Responder {
 	fact := h.facts.Facts[params.ID]
+
+	if envVar := os.Getenv("DEPLOYMENT_ENV"); envVar != "" {
+		fact.Joke = fmt.Sprintf("[%s] %s", envVar, fact.Joke)
+	}
+
 	return operations.NewGetJokeByIDOK().WithPayload(fact.ToFactResponse(params.ID, getOrElse(params.FirstName, defaultFirstName), getOrElse(params.LastName, defaultLastName)))
 }
 
@@ -53,6 +60,11 @@ func (h *getJokesByIDHandler) Handle(params operations.GetJokeByIDParams) middle
 // /api/jokes/random
 func (h *getRandomJokeHandler) Handle(params operations.GetRandomJokeParams) middleware.Responder {
 	id, fact := h.facts.GetRandomFact()
+
+	if envVar := os.Getenv("DEPLOYMENT_ENV"); envVar != "" {
+		fact.Joke = fmt.Sprintf("[%s] %s", envVar, fact.Joke)
+	}
+
 	return operations.NewGetRandomJokeOK().WithPayload(fact.ToFactResponse(id, getOrElse(params.FirstName, defaultFirstName), getOrElse(params.LastName, defaultLastName)))
 }
 
