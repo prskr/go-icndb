@@ -40,6 +40,9 @@ func NewICNDBAPI(spec *loads.Document) *ICNDBAPI {
 		GetJokeByIDHandler: GetJokeByIDHandlerFunc(func(params GetJokeByIDParams) middleware.Responder {
 			return middleware.NotImplemented("operation GetJokeByID has not yet been implemented")
 		}),
+		GetDeployEnvHandler: GetDeployEnvHandlerFunc(func(params GetDeployEnvParams) middleware.Responder {
+			return middleware.NotImplemented("operation GetDeployEnv has not yet been implemented")
+		}),
 		GetHealthHandler: GetHealthHandlerFunc(func(params GetHealthParams) middleware.Responder {
 			return middleware.NotImplemented("operation GetHealth has not yet been implemented")
 		}),
@@ -88,6 +91,8 @@ type ICNDBAPI struct {
 
 	// GetJokeByIDHandler sets the operation handler for the get joke by id operation
 	GetJokeByIDHandler GetJokeByIDHandler
+	// GetDeployEnvHandler sets the operation handler for the get deploy env operation
+	GetDeployEnvHandler GetDeployEnvHandler
 	// GetHealthHandler sets the operation handler for the get health operation
 	GetHealthHandler GetHealthHandler
 	// GetHostnameHandler sets the operation handler for the get hostname operation
@@ -163,6 +168,10 @@ func (o *ICNDBAPI) Validate() error {
 
 	if o.GetJokeByIDHandler == nil {
 		unregistered = append(unregistered, "GetJokeByIDHandler")
+	}
+
+	if o.GetDeployEnvHandler == nil {
+		unregistered = append(unregistered, "GetDeployEnvHandler")
 	}
 
 	if o.GetHealthHandler == nil {
@@ -287,6 +296,11 @@ func (o *ICNDBAPI) initHandlerCache() {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
 	o.handlers["GET"]["/jokes/{id}"] = NewGetJokeByID(o.context, o.GetJokeByIDHandler)
+
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/deploy/env"] = NewGetDeployEnv(o.context, o.GetDeployEnvHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)

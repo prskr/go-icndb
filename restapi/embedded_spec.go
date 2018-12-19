@@ -35,6 +35,20 @@ func init() {
   },
   "basePath": "/api",
   "paths": {
+    "/deploy/env": {
+      "get": {
+        "summary": "Get the deployment environment",
+        "operationId": "getDeployEnv",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/DeployEnvResponse"
+            }
+          }
+        }
+      }
+    },
     "/health": {
       "get": {
         "summary": "Check the health state of the service",
@@ -170,6 +184,14 @@ func init() {
       "properties": {
         "count": {
           "type": "integer"
+        }
+      }
+    },
+    "DeployEnvResponse": {
+      "type": "object",
+      "properties": {
+        "env": {
+          "type": "string"
         }
       }
     },
@@ -236,6 +258,20 @@ func init() {
   },
   "basePath": "/api",
   "paths": {
+    "/deploy/env": {
+      "get": {
+        "summary": "Get the deployment environment",
+        "operationId": "getDeployEnv",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/DeployEnvResponse"
+            }
+          }
+        }
+      }
+    },
     "/health": {
       "get": {
         "summary": "Check the health state of the service",
@@ -371,6 +407,14 @@ func init() {
       "properties": {
         "count": {
           "type": "integer"
+        }
+      }
+    },
+    "DeployEnvResponse": {
+      "type": "object",
+      "properties": {
+        "env": {
+          "type": "string"
         }
       }
     },

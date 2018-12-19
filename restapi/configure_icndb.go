@@ -77,6 +77,10 @@ func configureAPI(api *operations.ICNDBAPI) http.Handler {
 		return handlers.NewGetIPAddressesHandler().Handle(params)
 	})
 
+	api.GetDeployEnvHandler = operations.GetDeployEnvHandlerFunc(func(params operations.GetDeployEnvParams) middleware.Responder {
+		return handlers.NewGetDeployEnvHandler().Handle(params)
+	})
+
 	api.ServerShutdown = func() {}
 
 	return setupGlobalMiddleware(api.Serve(setupMiddlewares))

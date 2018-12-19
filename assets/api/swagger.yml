@@ -87,6 +87,15 @@ paths:
           description: Got IP addresses
           schema:
             $ref: '#/definitions/IPAddressesResponse'
+  /deploy/env:
+    get:
+      summary: Get the deployment environment
+      operationId: getDeployEnv
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/DeployEnvResponse'
   /health:
     get:
       summary: Check the health state of the service
@@ -132,3 +141,8 @@ definitions:
         type: array
         items:
           type: string
+  DeployEnvResponse:
+    type: object
+    properties:
+      env:
+        type: string
