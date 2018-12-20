@@ -3,12 +3,11 @@
 package main
 
 import (
-	log "github.com/sirupsen/logrus"
-	"os"
-
 	"github.com/baez90/go-icndb/restapi"
 	"github.com/baez90/go-icndb/restapi/operations"
 	"github.com/go-openapi/loads"
+	log "github.com/sirupsen/logrus"
+	"os"
 	"github.com/jessevdk/go-flags"
 )
 
@@ -17,6 +16,8 @@ import (
 
 func main() {
 
+	log.Info("Setting up ICNDB service ...")
+	log.Info("Loading API definition ...")
 	swaggerSpec, err := loads.Embedded(restapi.SwaggerJSON, restapi.FlatSwaggerJSON)
 	if err != nil {
 		log.Fatalln(err)
@@ -26,6 +27,7 @@ func main() {
 	server := restapi.NewServer(api)
 	defer server.Shutdown()
 
+	log.Info("Loading & configuring flags ...")
 	parser := flags.NewParser(server, flags.Default)
 	parser.ShortDescription = "ICNDB"
 	parser.LongDescription = "ICNDB sample API for ITB"
@@ -48,10 +50,15 @@ func main() {
 		os.Exit(code)
 	}
 
+	log.Info("Configuring API ...")
 	server.ConfigureAPI()
 
+	log.Info("Firing up server ...")
 	if err := server.Serve(); err != nil {
 		log.Fatalln(err)
 	}
+	log.Info("Server up and running, ready to answer requests!")
+
+
 
 }

@@ -26,6 +26,20 @@
   version = "v9"
 
 [[projects]]
+  branch = "master"
+  digest = "1:034886632e8c3243cca5cdd00db0d87ce233eafc02aa169f10e5b9d48d8d9a61"
+  name = "github.com/baez90/go-icndb"
+  packages = [
+    "internal/pkg/models",
+    "models",
+    "restapi",
+    "restapi/handlers",
+    "restapi/operations"
+  ]
+  pruneopts = "UT"
+  revision = "1dc11050776ea90c6cbc53457df320f52fd89dbf"
+
+[[projects]]
   digest = "1:6f82cacd0af5921e99bf3f46748705239b36489464f4529a1589bc895764fb18"
   name = "github.com/docker/go-units"
   packages = ["."]
@@ -39,7 +53,7 @@
   name = "github.com/globalsign/mgo"
   packages = [
     "bson",
-    "internal/json",
+    "internal/json"
   ]
   pruneopts = "UT"
   revision = "eeefdecb41b842af6dc652aaea4026e8403e62df"
@@ -49,7 +63,7 @@
   name = "github.com/go-openapi/analysis"
   packages = [
     ".",
-    "internal",
+    "internal"
   ]
   pruneopts = "UT"
   revision = "c701774f4e604d952e4e8c56dee260be696e33c3"
@@ -98,7 +112,7 @@
     "middleware/denco",
     "middleware/header",
     "middleware/untyped",
-    "security",
+    "security"
   ]
   pruneopts = "UT"
   revision = "231d7876b7019dbcbfc97a7ba764379497b67c1d"
@@ -207,7 +221,7 @@
   packages = [
     "buffer",
     "jlexer",
-    "jwriter",
+    "jwriter"
   ]
   pruneopts = "UT"
   revision = "60711f1a8329503b04e1c88535f419d0bb440bff"
@@ -258,7 +272,7 @@
   name = "golang.org/x/net"
   packages = [
     "idna",
-    "netutil",
+    "netutil"
   ]
   pruneopts = "UT"
   revision = "891ebc4b82d6e74f468c533b06f983c7be918a96"
@@ -269,7 +283,7 @@
   name = "golang.org/x/sys"
   packages = [
     "unix",
-    "windows",
+    "windows"
   ]
   pruneopts = "UT"
   revision = "4d1cda033e0619309c606fc686de3adcf599539e"
@@ -292,7 +306,7 @@
     "unicode/cldr",
     "unicode/norm",
     "unicode/rangetable",
-    "width",
+    "width"
   ]
   pruneopts = "UT"
   revision = "f21a4dfb5e38f5895301dc265a8def02365cc3d0"
@@ -310,6 +324,11 @@
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
+    "github.com/baez90/go-icndb/internal/pkg/models",
+    "github.com/baez90/go-icndb/models",
+    "github.com/baez90/go-icndb/restapi",
+    "github.com/baez90/go-icndb/restapi/handlers",
+    "github.com/baez90/go-icndb/restapi/operations",
     "github.com/go-openapi/errors",
     "github.com/go-openapi/loads",
     "github.com/go-openapi/runtime",
@@ -324,7 +343,7 @@
     "github.com/jessevdk/go-flags",
     "github.com/joonix/log",
     "github.com/sirupsen/logrus",
-    "golang.org/x/net/netutil",
+    "golang.org/x/net/netutil"
   ]
   solver-name = "gps-cdcl"
   solver-version = 1
