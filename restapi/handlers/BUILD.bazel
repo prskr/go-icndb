@@ -1,0 +1,20 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "go_default_library",
+    srcs = [
+        "deploy_info_handler.go",
+        "health_handler.go",
+        "jokes_handler.go",
+        "system_information_handler.go",
+    ],
+    importpath = "github.com/baez90/go-icndb/restapi/handlers",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//internal/pkg/models:go_default_library",
+        "//models:go_default_library",
+        "//restapi/operations:go_default_library",
+        "//vendor/github.com/go-openapi/runtime/middleware:go_default_library",
+        "//vendor/github.com/sirupsen/logrus:go_default_library",
+    ],
+)

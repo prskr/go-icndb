@@ -1,0 +1,12 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "go_default_library",
+    srcs = ["fact.go"],
+    importpath = "github.com/baez90/go-icndb/internal/pkg/models",
+    visibility = ["//:__subpackages__"],
+    deps = [
+        "//models:go_default_library",
+        "//vendor/github.com/gobuffalo/packr:go_default_library",
+    ],
+)

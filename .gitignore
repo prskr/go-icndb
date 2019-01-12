@@ -43,3 +43,5 @@ go-icndb
 icndb
 
 vendor/
+
+bazel-*

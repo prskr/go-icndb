@@ -1,0 +1,20 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "go_default_library",
+    srcs = [
+        "count_response.go",
+        "deploy_env_response.go",
+        "fact_response.go",
+        "hostname_response.go",
+        "ip_addresses_response.go",
+    ],
+    importpath = "github.com/baez90/go-icndb/models",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//vendor/github.com/go-openapi/errors:go_default_library",
+        "//vendor/github.com/go-openapi/strfmt:go_default_library",
+        "//vendor/github.com/go-openapi/swag:go_default_library",
+        "//vendor/github.com/go-openapi/validate:go_default_library",
+    ],
+)
