@@ -20,9 +20,9 @@ import (
 	"github.com/go-openapi/swag"
 )
 
-// NewICNDBAPI creates a new ICNDB instance
-func NewICNDBAPI(spec *loads.Document) *ICNDBAPI {
-	return &ICNDBAPI{
+// NewIcndbAPI creates a new Icndb instance
+func NewIcndbAPI(spec *loads.Document) *IcndbAPI {
+	return &IcndbAPI{
 		handlers:            make(map[string]map[string]http.Handler),
 		formats:             strfmt.Default,
 		defaultConsumes:     "application/json",
@@ -61,8 +61,8 @@ func NewICNDBAPI(spec *loads.Document) *ICNDBAPI {
 	}
 }
 
-/*ICNDBAPI ICNDB sample API for ITB */
-type ICNDBAPI struct {
+/*IcndbAPI ICNDB sample API for ITB */
+type IcndbAPI struct {
 	spec            *loads.Document
 	context         *middleware.Context
 	handlers        map[string]map[string]http.Handler
@@ -74,13 +74,13 @@ type ICNDBAPI struct {
 	Middleware      func(middleware.Builder) http.Handler
 
 	// BasicAuthenticator generates a runtime.Authenticator from the supplied basic auth function.
-	// It has a default implemention in the security package, however you can replace it for your particular usage.
+	// It has a default implementation in the security package, however you can replace it for your particular usage.
 	BasicAuthenticator func(security.UserPassAuthentication) runtime.Authenticator
 	// APIKeyAuthenticator generates a runtime.Authenticator from the supplied token auth function.
-	// It has a default implemention in the security package, however you can replace it for your particular usage.
+	// It has a default implementation in the security package, however you can replace it for your particular usage.
 	APIKeyAuthenticator func(string, string, security.TokenAuthentication) runtime.Authenticator
 	// BearerAuthenticator generates a runtime.Authenticator from the supplied bearer token auth function.
-	// It has a default implemention in the security package, however you can replace it for your particular usage.
+	// It has a default implementation in the security package, however you can replace it for your particular usage.
 	BearerAuthenticator func(string, security.ScopedTokenAuthentication) runtime.Authenticator
 
 	// JSONConsumer registers a consumer for a "application/json" mime type
@@ -120,42 +120,42 @@ type ICNDBAPI struct {
 }
 
 // SetDefaultProduces sets the default produces media type
-func (o *ICNDBAPI) SetDefaultProduces(mediaType string) {
+func (o *IcndbAPI) SetDefaultProduces(mediaType string) {
 	o.defaultProduces = mediaType
 }
 
 // SetDefaultConsumes returns the default consumes media type
-func (o *ICNDBAPI) SetDefaultConsumes(mediaType string) {
+func (o *IcndbAPI) SetDefaultConsumes(mediaType string) {
 	o.defaultConsumes = mediaType
 }
 
 // SetSpec sets a spec that will be served for the clients.
-func (o *ICNDBAPI) SetSpec(spec *loads.Document) {
+func (o *IcndbAPI) SetSpec(spec *loads.Document) {
 	o.spec = spec
 }
 
 // DefaultProduces returns the default produces media type
-func (o *ICNDBAPI) DefaultProduces() string {
+func (o *IcndbAPI) DefaultProduces() string {
 	return o.defaultProduces
 }
 
 // DefaultConsumes returns the default consumes media type
-func (o *ICNDBAPI) DefaultConsumes() string {
+func (o *IcndbAPI) DefaultConsumes() string {
 	return o.defaultConsumes
 }
 
 // Formats returns the registered string formats
-func (o *ICNDBAPI) Formats() strfmt.Registry {
+func (o *IcndbAPI) Formats() strfmt.Registry {
 	return o.formats
 }
 
 // RegisterFormat registers a custom format validator
-func (o *ICNDBAPI) RegisterFormat(name string, format strfmt.Format, validator strfmt.Validator) {
+func (o *IcndbAPI) RegisterFormat(name string, format strfmt.Format, validator strfmt.Validator) {
 	o.formats.Add(name, format, validator)
 }
 
-// Validate validates the registrations in the ICNDBAPI
-func (o *ICNDBAPI) Validate() error {
+// Validate validates the registrations in the IcndbAPI
+func (o *IcndbAPI) Validate() error {
 	var unregistered []string
 
 	if o.JSONConsumer == nil {
@@ -202,26 +202,26 @@ func (o *ICNDBAPI) Validate() error {
 }
 
 // ServeErrorFor gets a error handler for a given operation id
-func (o *ICNDBAPI) ServeErrorFor(operationID string) func(http.ResponseWriter, *http.Request, error) {
+func (o *IcndbAPI) ServeErrorFor(operationID string) func(http.ResponseWriter, *http.Request, error) {
 	return o.ServeError
 }
 
 // AuthenticatorsFor gets the authenticators for the specified security schemes
-func (o *ICNDBAPI) AuthenticatorsFor(schemes map[string]spec.SecurityScheme) map[string]runtime.Authenticator {
+func (o *IcndbAPI) AuthenticatorsFor(schemes map[string]spec.SecurityScheme) map[string]runtime.Authenticator {
 
 	return nil
 
 }
 
 // Authorizer returns the registered authorizer
-func (o *ICNDBAPI) Authorizer() runtime.Authorizer {
+func (o *IcndbAPI) Authorizer() runtime.Authorizer {
 
 	return nil
 
 }
 
 // ConsumersFor gets the consumers for the specified media types
-func (o *ICNDBAPI) ConsumersFor(mediaTypes []string) map[string]runtime.Consumer {
+func (o *IcndbAPI) ConsumersFor(mediaTypes []string) map[string]runtime.Consumer {
 
 	result := make(map[string]runtime.Consumer)
 	for _, mt := range mediaTypes {
@@ -241,7 +241,7 @@ func (o *ICNDBAPI) ConsumersFor(mediaTypes []string) map[string]runtime.Consumer
 }
 
 // ProducersFor gets the producers for the specified media types
-func (o *ICNDBAPI) ProducersFor(mediaTypes []string) map[string]runtime.Producer {
+func (o *IcndbAPI) ProducersFor(mediaTypes []string) map[string]runtime.Producer {
 
 	result := make(map[string]runtime.Producer)
 	for _, mt := range mediaTypes {
@@ -261,7 +261,7 @@ func (o *ICNDBAPI) ProducersFor(mediaTypes []string) map[string]runtime.Producer
 }
 
 // HandlerFor gets a http.Handler for the provided operation method and path
-func (o *ICNDBAPI) HandlerFor(method, path string) (http.Handler, bool) {
+func (o *IcndbAPI) HandlerFor(method, path string) (http.Handler, bool) {
 	if o.handlers == nil {
 		return nil, false
 	}
@@ -276,8 +276,8 @@ func (o *ICNDBAPI) HandlerFor(method, path string) (http.Handler, bool) {
 	return h, ok
 }
 
-// Context returns the middleware context for the i c n d b API
-func (o *ICNDBAPI) Context() *middleware.Context {
+// Context returns the middleware context for the icndb API
+func (o *IcndbAPI) Context() *middleware.Context {
 	if o.context == nil {
 		o.context = middleware.NewRoutableContext(o.spec, o, nil)
 	}
@@ -285,7 +285,7 @@ func (o *ICNDBAPI) Context() *middleware.Context {
 	return o.context
 }
 
-func (o *ICNDBAPI) initHandlerCache() {
+func (o *IcndbAPI) initHandlerCache() {
 	o.Context() // don't care about the result, just that the initialization happened
 
 	if o.handlers == nil {
@@ -331,7 +331,7 @@ func (o *ICNDBAPI) initHandlerCache() {
 
 // Serve creates a http handler to serve the API over HTTP
 // can be used directly in http.ListenAndServe(":8000", api.Serve(nil))
-func (o *ICNDBAPI) Serve(builder middleware.Builder) http.Handler {
+func (o *IcndbAPI) Serve(builder middleware.Builder) http.Handler {
 	o.Init()
 
 	if o.Middleware != nil {
@@ -341,18 +341,18 @@ func (o *ICNDBAPI) Serve(builder middleware.Builder) http.Handler {
 }
 
 // Init allows you to just initialize the handler cache, you can then recompose the middleware as you see fit
-func (o *ICNDBAPI) Init() {
+func (o *IcndbAPI) Init() {
 	if len(o.handlers) == 0 {
 		o.initHandlerCache()
 	}
 }
 
 // RegisterConsumer allows you to add (or override) a consumer for a media type.
-func (o *ICNDBAPI) RegisterConsumer(mediaType string, consumer runtime.Consumer) {
+func (o *IcndbAPI) RegisterConsumer(mediaType string, consumer runtime.Consumer) {
 	o.customConsumers[mediaType] = consumer
 }
 
 // RegisterProducer allows you to add (or override) a producer for a media type.
-func (o *ICNDBAPI) RegisterProducer(mediaType string, producer runtime.Producer) {
+func (o *IcndbAPI) RegisterProducer(mediaType string, producer runtime.Producer) {
 	o.customProducers[mediaType] = producer
 }

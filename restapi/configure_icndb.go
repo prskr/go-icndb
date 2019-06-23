@@ -25,7 +25,7 @@ var loggingFlags = struct {
 	LogLevel  string `long:"log-level" description:"Log level the application runs on"`
 }{}
 
-func configureFlags(api *operations.ICNDBAPI) {
+func configureFlags(api *operations.IcndbAPI) {
 	// api.CommandLineOptionsGroups = []swag.CommandLineOptionsGroup{ ... }
 
 	api.CommandLineOptionsGroups = []swag.CommandLineOptionsGroup{
@@ -38,7 +38,7 @@ func configureFlags(api *operations.ICNDBAPI) {
 
 }
 
-func configureAPI(api *operations.ICNDBAPI) http.Handler {
+func configureAPI(api *operations.IcndbAPI) http.Handler {
 	// configure the api here
 	api.ServeError = errors.ServeError
 
