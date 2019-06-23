@@ -1,14 +1,13 @@
 FROM golang:1.12.6-alpine as build
 
-RUN apk add --no-cache git dep && \
+RUN apk add --no-cache git && \
     go get -u github.com/gobuffalo/packr/packr
 
-WORKDIR /go/src/github.com/baez90/go-icndb
+WORKDIR /icndb
 
 ADD ./ ./
 
-RUN dep ensure && \
-    packr && \
+RUN packr && \
     CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -tags netgo -ldflags '-w -extldflags "-static"' -o icndb cmd/icndb-server/main.go
 
 FROM alpine:3.10
@@ -33,7 +32,7 @@ RUN adduser \
         -u 1000 \
         icndb
 
-COPY --from=BUILD --chown=icndb:icndb /go/src/github.com/baez90/go-icndb/icndb /usr/local/bin/icndb
+COPY --from=build --chown=icndb:icndb /icndb/icndb /usr/local/bin/icndb
 
 USER icndb
 EXPOSE 8000

@@ -36,9 +36,10 @@ func (facts Facts) Length() int64 {
 	return int64(len(facts.Facts))
 }
 
-func (facts Facts) GetRandomFact() (int64, Fact) {
-	idx := rand.Int63n(int64(facts.Length()))
-	return idx, facts.Facts[idx]
+func (facts Facts) GetRandomFact() (idx int64, fact Fact) {
+	idx = rand.Int63n(int64(facts.Length()))
+	fact = facts.Facts[idx]
+	return
 }
 
 func LoadFacts(box *packr.Box, key string) (*Facts, error) {

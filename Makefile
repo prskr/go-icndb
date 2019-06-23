@@ -61,6 +61,18 @@ deps:
 compile: deps ensure-packr2
 	@$(GOARGS) packr2 build $(GO_BUILD_ARGS) -o $(DIR)/$(BINARY_NAME) $(BUILD_PATH)
 
+.PHONY: docker
+docker:
+	@docker build --build-arg VCS_REF=$(VERSION) \
+       			  --build-arg BUILD_DATE=$(shell date -u +"%Y-%m-%dT%H:%M:%SZ") \
+     			  -t baez90/go-icndb:latest .
+
+.PHONY: podman
+podman:
+	@podman build --build-arg VCS_REF=$(VERSION) \
+       			  --build-arg BUILD_DATE=$(shell date -u +"%Y-%m-%dT%H:%M:%SZ") \
+     			  -t baez90/go-icndb:latest .
+
 .PHONY: run
 run:
 	@go run $(BUILD_PATH) \
