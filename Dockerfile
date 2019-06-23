@@ -37,4 +37,5 @@ COPY --from=build --chown=icndb:icndb /icndb/icndb /usr/local/bin/icndb
 USER icndb
 EXPOSE 8000
 
-CMD ["/usr/local/bin/icndb", "--host=0.0.0.0", "--port=8000", "--scheme=http"]
+ENTRYPOINT ["/usr/local/bin/icndb"]
+CMD ["--host=0.0.0.0", "--port=8000", "--scheme=http"]
