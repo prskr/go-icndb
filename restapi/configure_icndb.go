@@ -4,7 +4,7 @@ import (
 	"crypto/tls"
 	"github.com/baez90/go-icndb/restapi/handlers"
 	"github.com/go-openapi/swag"
-	"github.com/gobuffalo/packr"
+	"github.com/gobuffalo/packr/v2"
 	joonix "github.com/joonix/log"
 	log "github.com/sirupsen/logrus"
 	"net/http"
@@ -42,8 +42,8 @@ func configureAPI(api *operations.IcndbAPI) http.Handler {
 	// configure the api here
 	api.ServeError = errors.ServeError
 
-	box := packr.NewBox("../assets/app")
-	jokes, err := models.LoadFacts(&box, "jokes.json")
+	box := packr.New("app", "../assets/app")
+	jokes, err := models.LoadFacts(box, "jokes.json")
 	configureLogging()
 
 	if err != nil {
@@ -124,7 +124,7 @@ func configureLogging() {
 		log.SetFormatter(&log.JSONFormatter{})
 		break
 	case "fluentd":
-		log.SetFormatter(&joonix.FluentdFormatter{})
+		log.SetFormatter(joonix.NewFormatter())
 		break
 	default:
 		log.SetFormatter(&log.TextFormatter{

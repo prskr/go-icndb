@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	respModels "github.com/baez90/go-icndb/models"
-	"github.com/gobuffalo/packr"
+	packr "github.com/gobuffalo/packr/v2"
 	"html"
 	"math/rand"
 )
