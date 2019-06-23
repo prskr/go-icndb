@@ -30,7 +30,7 @@ func init() {
   "swagger": "2.0",
   "info": {
     "description": "ICNDB sample API for ITB",
-    "title": "ICNDB",
+    "title": "icndb",
     "version": "0.0.1"
   },
   "basePath": "/api",
@@ -253,7 +253,7 @@ func init() {
   "swagger": "2.0",
   "info": {
     "description": "ICNDB sample API for ITB",
-    "title": "ICNDB",
+    "title": "icndb",
     "version": "0.0.1"
   },
   "basePath": "/api",

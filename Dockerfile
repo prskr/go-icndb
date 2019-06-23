@@ -1,4 +1,4 @@
-FROM golang:1.11-alpine as build
+FROM golang:1.12.6-alpine as build
 
 RUN apk add --no-cache git dep && \
     go get -u github.com/gobuffalo/packr/packr
@@ -11,7 +11,7 @@ RUN dep ensure && \
     packr && \
     CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -tags netgo -ldflags '-w -extldflags "-static"' -o icndb cmd/icndb-server/main.go
 
-FROM alpine:3.8
+FROM alpine:3.10
 
 LABEL org.label-schema.build-date=$BUILD_DATE \
       org.label-schema.name="ICNDB" \
