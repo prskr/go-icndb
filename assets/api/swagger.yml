@@ -11,6 +11,13 @@ schemes:
   - http
 basePath: /api
 paths:
+  /metrics:
+    get:
+      summary: Get metrics in a Prometheus compatible format
+      operationId: prometheusMetrics
+      responses:
+        200:
+          description: OK
   /jokes/count:
     get:
       summary: Get the count of the available jokes

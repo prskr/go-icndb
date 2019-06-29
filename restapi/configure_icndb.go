@@ -2,10 +2,12 @@ package restapi
 
 import (
 	"crypto/tls"
+	"github.com/baez90/go-icndb/internal/pkg/metrics"
 	"github.com/baez90/go-icndb/restapi/handlers"
 	"github.com/go-openapi/swag"
 	"github.com/gobuffalo/packr/v2"
 	joonix "github.com/joonix/log"
+	"github.com/prometheus/client_golang/prometheus"
 	log "github.com/sirupsen/logrus"
 	"net/http"
 
@@ -46,6 +48,18 @@ func configureAPI(api *operations.IcndbAPI) http.Handler {
 	jokes, err := models.LoadFacts(box, "jokes.json")
 	configureLogging()
 
+	appMetrics := metrics.AppMetricsCollectors{}
+
+	// configure Prometheus
+	appMetrics.RandomJokesCounter = prometheus.NewCounterVec(prometheus.CounterOpts{
+		Namespace: "jokes",
+		Subsystem: "random",
+		Name:      "total_number",
+		Help:      "",
+	}, []string{})
+
+	prometheus.MustRegister(appMetrics.RandomJokesCounter)
+
 	if err != nil {
 		log.Println(err)
 	}
@@ -66,7 +80,7 @@ func configureAPI(api *operations.IcndbAPI) http.Handler {
 		return handlers.NewGetJokesCountHandler(jokes).Handle(params)
 	})
 	api.GetRandomJokeHandler = operations.GetRandomJokeHandlerFunc(func(params operations.GetRandomJokeParams) middleware.Responder {
-		return handlers.NewRandomJokeHandler(jokes).Handle(params)
+		return handlers.NewRandomJokeHandler(jokes, &appMetrics).Handle(params)
 	})
 
 	api.GetHostnameHandler = operations.GetHostnameHandlerFunc(func(params operations.GetHostnameParams) middleware.Responder {

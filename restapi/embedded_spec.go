@@ -143,6 +143,17 @@ func init() {
         }
       }
     },
+    "/metrics": {
+      "get": {
+        "summary": "Get metrics in a Prometheus compatible format",
+        "operationId": "prometheusMetrics",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/system/hostname": {
       "get": {
         "summary": "Get the hostname of the system",
@@ -362,6 +373,17 @@ func init() {
           },
           "404": {
             "description": "Not found"
+          }
+        }
+      }
+    },
+    "/metrics": {
+      "get": {
+        "summary": "Get metrics in a Prometheus compatible format",
+        "operationId": "prometheusMetrics",
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }

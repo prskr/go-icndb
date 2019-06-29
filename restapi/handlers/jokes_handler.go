@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"fmt"
+	"github.com/baez90/go-icndb/internal/pkg/metrics"
 	"github.com/baez90/go-icndb/internal/pkg/models"
 	respModels "github.com/baez90/go-icndb/models"
 	"github.com/baez90/go-icndb/restapi/operations"
@@ -19,7 +20,8 @@ type getJokesByIDHandler struct {
 }
 
 type getRandomJokeHandler struct {
-	facts *models.Facts
+	facts   *models.Facts
+	metrics *metrics.AppMetricsCollectors
 }
 
 type getJokesCountHandler struct {
@@ -32,9 +34,10 @@ func NewJokesByIDHandler(facts *models.Facts) *getJokesByIDHandler {
 	}
 }
 
-func NewRandomJokeHandler(facts *models.Facts) *getRandomJokeHandler {
+func NewRandomJokeHandler(facts *models.Facts, metrics *metrics.AppMetricsCollectors) *getRandomJokeHandler {
 	return &getRandomJokeHandler{
-		facts: facts,
+		facts:   facts,
+		metrics: metrics,
 	}
 }
 
@@ -64,6 +67,8 @@ func (h *getRandomJokeHandler) Handle(params operations.GetRandomJokeParams) mid
 	if envVar := os.Getenv("DEPLOYMENT_ENV"); envVar != "" {
 		fact.Joke = fmt.Sprintf("[%s] %s", envVar, fact.Joke)
 	}
+
+	h.metrics.RandomJokesCounter.WithLabelValues().Inc()
 
 	return operations.NewGetRandomJokeOK().WithPayload(fact.ToFactResponse(id, getOrElse(params.FirstName, defaultFirstName), getOrElse(params.LastName, defaultLastName)))
 }
