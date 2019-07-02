@@ -1,13 +1,13 @@
 FROM golang:1.12.6-alpine as build
 
 RUN apk add --no-cache git && \
-    go get -u github.com/gobuffalo/packr/packr
+    go get -u github.com/gobuffalo/packr/v2/packr2
 
 WORKDIR /icndb
 
 ADD ./ ./
 
-RUN packr && \
+RUN packr2 && \
     CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -tags netgo -ldflags '-w -extldflags "-static"' -o icndb cmd/icndb-server/main.go
 
 FROM alpine:3.10
@@ -38,4 +38,4 @@ USER icndb
 EXPOSE 8000
 
 ENTRYPOINT ["/usr/local/bin/icndb"]
-CMD ["--host=0.0.0.0", "--port=8000", "--scheme=http"]
+CMD ["--host=0.0.0.0", "--port=8000", "--scheme=http", "--log-level=info", "--log-format=json"]
