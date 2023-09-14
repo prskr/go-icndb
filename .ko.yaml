@@ -1,0 +1,10 @@
+defaultPlatforms:
+  - linux/arm64
+  - linux/amd64
+
+builds:
+  - id: go-icndb
+    flags:
+      - -trimpath
+    ldflags:
+      - -s -w

@@ -1,32 +1,42 @@
-swagger: "2.0"
+openapi: 3.0.1
 info:
-  description: ICNDB sample API for ITB
   title: icndb
+  description: ICNDB sample API for ITB
   version: 0.0.1
-consumes:
-  - application/json
-produces:
-  - application/json
-schemes:
-  - http
-basePath: /api
+servers:
+  - url: /api
 paths:
-  /metrics:
+  /joke/{id}:
     get:
-      summary: Get metrics in a Prometheus compatible format
-      operationId: prometheusMetrics
-      responses:
-        200:
-          description: OK
-  /jokes/count:
-    get:
-      summary: Get the count of the available jokes
-      operationId: getJokesCount
-      responses:
-        200:
-          description: OK
+      summary: Get the joke with the specified id
+      operationId: Get joke by id
+      parameters:
+        - name: id
+          in: path
+          description: Joke ID
+          required: true
           schema:
-            $ref: '#/definitions/CountResponse'
+            type: integer
+        - name: firstName
+          in: query
+          description: Name to replace Chuck with in Joke
+          schema:
+            type: string
+        - name: lastName
+          in: query
+          description: Name to replace Norris with in Joke
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FactResponse'
+        '404':
+          description: Not found
+          content: {}
   /jokes/random:
     get:
       summary: Get a random joke
@@ -35,121 +45,70 @@ paths:
         - name: firstName
           in: query
           description: Name to replace Chuck with in Joke
-          type: string
-          required: false
+          schema:
+            type: string
         - name: lastName
           in: query
           description: Name to replace Norris with in Joke
-          type: string
-          required: false
+          schema:
+            type: string
       responses:
-        200:
+        '200':
           description: OK
-          schema:
-            $ref: '#/definitions/FactResponse'
-  /jokes/{id}:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FactResponse'
+  /jokes/count:
     get:
-      summary: Get the joke with the specified id
-      operationId: Get joke by id
-      parameters:
-        - name: id
-          in: path
-          description: Joke ID
-          type: integer
-          required: true
-        - name: firstName
-          in: query
-          description: Name to replace Chuck with in Joke
-          type: string
-          required: false
-        - name: lastName
-          in: query
-          description: Name to replace Norris with in Joke
-          type: string
-          required: false
+      summary: Get the count of the available jokes
+      operationId: getJokesCount
       responses:
-        200:
-          description: Ok
-          schema:
-            $ref: '#/definitions/FactResponse'
-        404:
-          description: Not found
-  /system/hostname:
-    get:
-      summary: Get the hostname of the system
-      operationId: getHostname
-      responses:
-        200:
-          description: Got hostname
-          schema:
-            $ref: '#/definitions/HostnameResponse'
-        500:
-          description: Failed to get hostname
-  /system/ipaddresses:
-    get:
-      summary: Get the IP addresses of the host
-      operationId: getIPAddresses
-      responses:
-        200:
-          description: Got IP addresses
-          schema:
-            $ref: '#/definitions/IPAddressesResponse'
-  /deploy/env:
-    get:
-      summary: Get the deployment environment
-      operationId: getDeployEnv
-      responses:
-        200:
+        '200':
           description: OK
-          schema:
-            $ref: '#/definitions/DeployEnvResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CountResponse'
+  /metrics:
+    get:
+      summary: Get metrics in a Prometheus compatible format
+      operationId: prometheusMetrics
+      responses:
+        '200':
+          description: OK
+          content: {}
   /health:
     get:
       summary: Check the health state of the service
       operationId: getHealth
       responses:
-        200:
+        '200':
           description: Service is healthy
-        500:
+          content: {}
+        '500':
           description: Service is not healty
-definitions:
-  CountResponse:
-    type: object
-    properties:
-      count:
-        type: integer
-    required:
-      - count
-  FactResponse:
-    type: object
-    properties:
-      id:
-        type: integer
-      joke:
-        type: string
-      categories:
-        type: array
-        items:
+          content: {}
+components:
+  schemas:
+    CountResponse:
+      required:
+        - count
+      type: object
+      properties:
+        count:
+          type: integer
+    FactResponse:
+      required:
+        - categories
+        - joke
+      type: object
+      properties:
+        id:
+          type: integer
+        joke:
           type: string
-    required:
-      - joke
-      - categories
-  HostnameResponse:
-    type: object
-    properties:
-      hostname:
-        type: string
-    required:
-      - hostname
-  IPAddressesResponse:
-    type: object
-    properties:
-      addresses:
-        type: array
-        items:
-          type: string
-  DeployEnvResponse:
-    type: object
-    properties:
-      env:
-        type: string
+        categories:
+          type: array
+          items:
+            type: string
