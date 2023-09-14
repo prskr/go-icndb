@@ -7,12 +7,15 @@
   },
   "servers": [
     {
-      "url": "/api"
+      "url": "/"
     }
   ],
   "paths": {
-    "/joke/{id}": {
+    "/api/joke/{id}": {
       "get": {
+        "tags": [
+          "jokes"
+        ],
         "summary": "Get the joke with the specified id",
         "operationId": "Get joke by id",
         "parameters": [
@@ -68,8 +71,11 @@
         }
       }
     },
-    "/jokes/random": {
+    "/api/jokes/random": {
       "get": {
+        "tags": [
+          "jokes"
+        ],
         "summary": "Get a random joke",
         "operationId": "getRandomJoke",
         "parameters": [
@@ -110,8 +116,11 @@
         }
       }
     },
-    "/jokes/count": {
+    "/api/jokes/count": {
       "get": {
+        "tags": [
+          "jokes"
+        ],
         "summary": "Get the count of the available jokes",
         "operationId": "getJokesCount",
         "responses": {
@@ -130,18 +139,26 @@
     },
     "/metrics": {
       "get": {
+        "tags": [
+          "observability"
+        ],
         "summary": "Get metrics in a Prometheus compatible format",
         "operationId": "prometheusMetrics",
         "responses": {
           "200": {
             "description": "OK",
-            "content": {}
+            "content": {
+              "text/plain": {}
+            }
           }
         }
       }
     },
     "/health": {
       "get": {
+        "tags": [
+          "observability"
+        ],
         "summary": "Check the health state of the service",
         "operationId": "getHealth",
         "responses": {

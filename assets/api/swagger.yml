@@ -4,12 +4,14 @@ info:
   description: ICNDB sample API for ITB
   version: 0.0.1
 servers:
-  - url: /api
+  - url: /
 paths:
-  /joke/{id}:
+  /api/joke/{id}:
     get:
       summary: Get the joke with the specified id
       operationId: Get joke by id
+      tags:
+        - jokes
       parameters:
         - name: id
           in: path
@@ -37,10 +39,12 @@ paths:
         '404':
           description: Not found
           content: {}
-  /jokes/random:
+  /api/jokes/random:
     get:
       summary: Get a random joke
       operationId: getRandomJoke
+      tags:
+        - jokes
       parameters:
         - name: firstName
           in: query
@@ -59,10 +63,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/FactResponse'
-  /jokes/count:
+  /api/jokes/count:
     get:
       summary: Get the count of the available jokes
       operationId: getJokesCount
+      tags:
+        - jokes
       responses:
         '200':
           description: OK
@@ -74,14 +80,20 @@ paths:
     get:
       summary: Get metrics in a Prometheus compatible format
       operationId: prometheusMetrics
+      tags:
+        - observability
       responses:
         '200':
           description: OK
-          content: {}
+          content:
+            text/plain: {}
+
   /health:
     get:
       summary: Check the health state of the service
       operationId: getHealth
+      tags:
+        - observability
       responses:
         '200':
           description: Service is healthy

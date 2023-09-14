@@ -1,6 +1,0 @@
-vendor/
-.git/
-.gitignore
-**/*-packr.go
-LICENSE
-README.md
