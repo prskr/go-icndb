@@ -132,21 +132,21 @@ func prepareFlags(flagSet *flag.FlagSet) {
 		&appCfg.HTTP.Address,
 		"http.address",
 		envOr("ICNDB_HTTP_ADDRESS", ":3000", noOpParse),
-		"Listener address, the HTTP server will open",
+		"Listener address, the HTTP server will open - ICNDB_HTTP_ADDRESS",
 	)
 
 	flagSet.StringVar(
 		&appCfg.Jokes.DefaultFirstName,
 		"jokes.default-first-name",
 		envOr("ICNDB_JOKES_DEFAULT_FIRST_NAME", "Chuck", noOpParse),
-		"Name to replace Chuck with in Joke",
+		"Name to replace Chuck with in Joke - ICNDB_JOKES_DEFAULT_FIRST_NAME",
 	)
 
 	flagSet.StringVar(
 		&appCfg.Jokes.DefaultLastName,
 		"jokes.default-last-name",
 		envOr("ICNDB_JOKES_DEFAULT_LAST_NAME", "Norris", noOpParse),
-		"Name to replace Norris with in Joke",
+		"Name to replace Norris with in Joke - ICNDB_JOKES_DEFAULT_LAST_NAME",
 	)
 
 	flagSet.Var(
