@@ -10,7 +10,7 @@ import (
 	"path"
 	txttemplate "text/template"
 
-	"github.com/julienschmidt/httprouter"
+	"github.com/go-chi/chi/v5"
 
 	"github.com/baez90/go-icndb/assets"
 )
@@ -29,37 +29,33 @@ func init() {
 	}
 }
 
-func SetupRouter(r *httprouter.Router) error {
+func SetupRoutes(router chi.Router) {
 	handler := Handler{}
 
 	sub, err := fs.Sub(assets.FS, "swagger-ui")
 	if err != nil {
-		return err
+		panic(err)
 	}
 
-	handler.staticSwaggerUiHandler = http.StripPrefix("/swagger/ui/", http.FileServer(http.FS(sub)))
+	handler.staticSwaggerUiHandler = http.FileServer(http.FS(sub))
 
-	r.GET("/swagger/ui/*filepath", handler.SwaggerUI)
-	r.GET("/swagger/swagger.json", handler.SwaggerSpec)
-
-	return nil
+	router.Mount("/ui/", http.StripPrefix("/swagger/ui", http.HandlerFunc(handler.SwaggerUI)))
+	router.Get("/swagger.json", handler.SwaggerSpec)
 }
 
 type Handler struct {
 	staticSwaggerUiHandler http.Handler
 }
 
-func (h *Handler) SwaggerUI(writer http.ResponseWriter, req *http.Request, params httprouter.Params) {
-	switch params.ByName("filepath") {
-	case "/swagger-initializer.js":
+func (h *Handler) SwaggerUI(writer http.ResponseWriter, req *http.Request) {
+	if req.URL.Path == "/swagger-initializer.js" {
 		h.swaggerInitializer(writer, req)
 		return
-	default:
-		h.staticSwaggerUiHandler.ServeHTTP(writer, req)
 	}
+	h.staticSwaggerUiHandler.ServeHTTP(writer, req)
 }
 
-func (h *Handler) SwaggerSpec(writer http.ResponseWriter, _ *http.Request, _ httprouter.Params) {
+func (h *Handler) SwaggerSpec(writer http.ResponseWriter, _ *http.Request) {
 	writer.Header().Set("Content-Type", "application/json")
 	writer.WriteHeader(200)
 

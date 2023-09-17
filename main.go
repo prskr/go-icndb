@@ -13,13 +13,13 @@ import (
 	"os/signal"
 	"time"
 
-	"github.com/julienschmidt/httprouter"
-	"github.com/prometheus/client_golang/prometheus/promhttp"
+	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi/v5/middleware"
 	"go.opentelemetry.io/otel/exporters/prometheus"
 	"go.opentelemetry.io/otel/sdk/metric"
 
-	"github.com/baez90/go-icndb/api/health"
 	"github.com/baez90/go-icndb/api/jokes"
+	"github.com/baez90/go-icndb/api/observability"
 	"github.com/baez90/go-icndb/api/swagger"
 	"github.com/baez90/go-icndb/internal/logging"
 	"github.com/baez90/go-icndb/internal/metrics"
@@ -70,7 +70,8 @@ func main() {
 
 func run(ctx context.Context) error {
 	logger := slog.Default()
-	router := httprouter.New()
+
+	router := chi.NewRouter()
 
 	promExporter, err := prometheus.New()
 	if err != nil {
@@ -80,24 +81,19 @@ func run(ctx context.Context) error {
 	provider := metric.NewMeterProvider(metric.WithReader(promExporter))
 	meter := provider.Meter("github.com/baez90/go-icndb")
 
-	router.Handler(http.MethodGet, "/metrics", promhttp.Handler())
+	router.Use(logging.RequestLogger(logger))
+	router.Use(metrics.RequestMetrics(meter))
+	router.Use(middleware.Recoverer)
 
-	if err := swagger.SetupRouter(router); err != nil {
-		return err
-	}
+	observability.SetupRoutes(router)
+	router.Route("/swagger", swagger.SetupRoutes)
+	router.Route("/api/jokes", jokes.RouterSetup(appCfg.Jokes.DefaultFirstName, appCfg.Jokes.DefaultLastName))
 
-	health.SetupRouter(router)
-	router.Handler(http.MethodGet, "/", http.RedirectHandler("/swagger/ui", http.StatusPermanentRedirect))
-	jokes.SetupRouter(router, appCfg.Jokes.DefaultFirstName, appCfg.Jokes.DefaultLastName)
-
-	measuredHandler, err := metrics.RequestMetrics(router, meter)
-	if err != nil {
-		return err
-	}
+	router.Mount("/", http.RedirectHandler("/swagger/ui/index.html", http.StatusPermanentRedirect))
 
 	srv := &http.Server{
 		Addr:              appCfg.HTTP.Address,
-		Handler:           logging.RequestLogger(measuredHandler, logger),
+		Handler:           router,
 		ReadHeaderTimeout: 100 * time.Millisecond,
 		BaseContext: func(listener net.Listener) context.Context {
 			return ctx

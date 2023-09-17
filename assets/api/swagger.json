@@ -11,7 +11,7 @@
     }
   ],
   "paths": {
-    "/api/joke/{id}": {
+    "/api/jokes/{id}": {
       "get": {
         "tags": [
           "jokes"

@@ -3,7 +3,7 @@ module github.com/baez90/go-icndb
 go 1.21
 
 require (
-	github.com/julienschmidt/httprouter v1.3.0
+	github.com/go-chi/chi/v5 v5.0.10
 	github.com/prometheus/client_golang v1.16.0
 	go.opentelemetry.io/otel v1.18.0
 	go.opentelemetry.io/otel/exporters/prometheus v0.41.0

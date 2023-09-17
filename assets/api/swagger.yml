@@ -6,7 +6,7 @@ info:
 servers:
   - url: /
 paths:
-  /api/joke/{id}:
+  /api/jokes/{id}:
     get:
       summary: Get the joke with the specified id
       operationId: Get joke by id
